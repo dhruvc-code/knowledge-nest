@@ -16,7 +16,6 @@ SENDER_PASSWORD = "your_app_password"
 
 
 def send_email(to_email, subject, body):
-
     msg = MIMEText(body)
     msg["Subject"] = subject
     msg["From"] = SENDER_EMAIL
@@ -28,7 +27,6 @@ def send_email(to_email, subject, body):
         server.login(SENDER_EMAIL, SENDER_PASSWORD)
         server.sendmail(SENDER_EMAIL, to_email, msg.as_string())
         server.quit()
-
     except Exception as e:
         print("Email Error:", e)
 
@@ -59,7 +57,6 @@ def course():
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
-
     if request.method == "POST":
 
         name = request.form["name"]
@@ -80,42 +77,6 @@ def register():
                 datetime.now().strftime("%d-%m-%Y %H:%M"),
                 status
             ])
-
-        student_email = f"""
-Hello {name},
-
-Welcome to Knowledge Nest.
-
-Your registration has been received successfully.
-
-We will contact you soon.
-
-Regards
-Knowledge Nest
-"""
-
-        send_email(
-            email,
-            "Welcome to Knowledge Nest",
-            student_email
-        )
-
-        admin_email = f"""
-New Student Registered
-
-Name: {name}
-Phone: {phone}
-Email: {email}
-Age: {age}
-Interest: {interest}
-Status: {status}
-"""
-
-        send_email(
-            ADMIN_EMAIL,
-            "New Student Registration",
-            admin_email
-        )
 
         return """
         <h2>Registration Successful</h2>
